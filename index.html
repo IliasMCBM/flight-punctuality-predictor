@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flight Route Map</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Flight Route Map</h1>
+        <form id="flight-form">
+            <label for="origin">Origen (Código IATA):</label>
+            <input type="text" id="origin" name="origin" required>
+            
+            <label for="destination">Destino (Código IATA):</label>
+            <input type="text" id="destination" name="destination" required>
+            
+            <!-- Otros inputs pueden ir aquí -->
+            
+            <button type="button" onclick="drawRoute()">Mostrar Ruta</button>
+        </form>
+        <div id="map"></div>
+    </div>
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
