@@ -58,7 +58,7 @@ async function drawRoute() {
         };
 
         // URL del servidor FastAPI
-        const url = 'http://127.0.0.1:8000/prediccion';  // Asegúrate de que esta URL sea correcta
+        const url = 'http://127.0.0.1:5000/prediccion';  // Asegúrate de que esta URL sea correcta
 
         // Enviar datos al servidor usando fetch
         const response = await fetch(url, {

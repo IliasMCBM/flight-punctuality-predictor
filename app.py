@@ -1,11 +1,12 @@
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 import joblib
 import pandas as pd
+import numpy as np
 
 # Cargar el modelo desde joblib
 loaded_pipeline = joblib.load('xgboost_model.joblib')
-
 
 # Definir la estructura de datos esperada
 class DatosEntrada(BaseModel):
@@ -16,10 +17,22 @@ class DatosEntrada(BaseModel):
     hora_salida: int
     hora_llegada: int
 
-
 # Inicializar la aplicación FastAPI
 app = FastAPI()
 
+# Configurar CORS
+origins = [
+    "http://localhost",
+    "http://localhost:8000",  # Agrega aquí la URL de tu frontend
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["POST"],
+    allow_headers=["*"],
+)
 
 # Ruta para recibir los datos del formulario y hacer la predicción
 @app.post('/prediccion')
@@ -37,6 +50,10 @@ async def obtener_prediccion(datos: DatosEntrada):
         # Realizar predicciones con el modelo cargado
         predictions = loaded_pipeline.predict(input_df)
         probabilities = loaded_pipeline.predict_proba(input_df)[:, 1]  # Probabilidad de la clase positiva
+
+        # Convertir predicciones y probabilidades a tipos de datos que fastapi pueda manejar
+        predictions = predictions.tolist()  # Convertir numpy array a lista de Python
+        probabilities = probabilities.tolist()  # Convertir numpy array a lista de Python
 
         # Formatear la respuesta
         results = []
