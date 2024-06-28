@@ -39,29 +39,50 @@ async function drawRoute() {
     // Eliminar rutas anteriores
     removePreviousRoutes();
 
-    const originCode = document.getElementById('origin').value.toUpperCase();
-    const destinationCode = document.getElementById('destination').value.toUpperCase();
+    const origin = document.getElementById('origin').value.toUpperCase();
+    const destination = document.getElementById('destination').value.toUpperCase();
+    const mes = document.getElementById('mes').value;
+    const dia = document.getElementById('dia').value;
+    const horaSalida = document.getElementById('hora_salida').value;
+    const horaLlegada = document.getElementById('hora_llegada').value;
 
     try {
-        const origin = await getAirportCoordinates(originCode);
-        const destination = await getAirportCoordinates(destinationCode);
+        // Objeto con los datos a enviar
+        const datos = {
+            origen: origin,
+            destino: destination,
+            mes: parseInt(mes),
+            dia: parseInt(dia),
+            hora_salida: parseInt(horaSalida),
+            hora_llegada: parseInt(horaLlegada)
+        };
 
-        // Calcular puntos intermedios
-        const points = [
-            origin,
-            [(origin[0] + destination[0]) / 2, (origin[1] + destination[1]) / 2], // Punto intermedio
-            destination
-        ];
+        // URL del servidor FastAPI
+        const url = 'http://127.0.0.1:8000/prediccion';  // Asegúrate de que esta URL sea correcta
 
-        // Dibujar la ruta con una polilínea y personalizar el estilo
-        const route = L.polyline(points, {
-            color: 'blue',
-            weight: 3
-        }).addTo(map);
+        // Enviar datos al servidor usando fetch
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(datos)
+        });
 
-        map.fitBounds([origin, destination]); // Ajustar el mapa para mostrar la ruta completa
+        if (!response.ok) {
+            throw new Error('Error al enviar los datos');
+        }
+
+        // Procesar la respuesta del servidor
+        const resultado = await response.json();
+        console.log('Respuesta del servidor:', resultado);
+
+        // Aquí puedes añadir código para mostrar el resultado en tu aplicación si lo deseas
+        alert('Predicción realizada con éxito. Revisa la consola para ver los resultados.');
+
     } catch (error) {
-        alert(error);
+        console.error('Error:', error);
+        alert('Ocurrió un error al enviar los datos al servidor.');
     }
 }
 
