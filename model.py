@@ -10,7 +10,7 @@ from joblib import parallel_backend
 import time
 import pandas as pd
 import xgboost as xgb
-df=pd.read_csv('C:/Users/ilias/Documents/AMD/Poryecto/combined_2023.csv')
+df=pd.read_csv('combined_2023.csv')
 # Importar la función para el manejo de desbalance de clases en XGBoost
 from xgboost import XGBClassifier
 df = df.dropna()

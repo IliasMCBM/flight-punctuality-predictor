@@ -58,7 +58,7 @@ async function drawRoute() {
         };
 
         // URL del servidor FastAPI
-        const url = 'http://127.0.0.1:5000/prediccion';  // Asegúrate de que esta URL sea correcta
+        const url = 'http://127.0.0.1:8002/prediccion';  // Asegúrate de que esta URL sea correcta
 
         // Enviar datos al servidor usando fetch
         const response = await fetch(url, {
@@ -80,6 +80,16 @@ async function drawRoute() {
         // Aquí puedes añadir código para mostrar el resultado en tu aplicación si lo deseas
         alert('Predicción realizada con éxito. Revisa la consola para ver los resultados.');
 
+        const resultadoDiv = document.getElementById('resultado');
+                resultadoDiv.innerHTML = `
+                    <h2>Resultado de la Predicción</h2>
+                    <p>Probabilidad de ser 1: ${resultado[0]['Probabilidad de ser 1']}</p>
+                `;
+        const distanceDiv = document.getElementById('distance');
+                distanceDiv.innerHTML = `
+                     <h2>Distancia de la Predicción</h2>
+                     <p>Distancia en millas : ${resultado[0]['Distancia']}</p>
+                `;
     } catch (error) {
         console.error('Error:', error);
         alert('Ocurrió un error al enviar los datos al servidor.');
