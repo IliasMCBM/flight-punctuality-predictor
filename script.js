@@ -58,7 +58,7 @@ async function drawRoute() {
         };
 
         // URL del servidor FastAPI
-        const url = 'http://127.0.0.1:8002/prediccion';  // Asegúrate de que esta URL sea correcta
+        const url = 'http://127.0.0.1:8001/prediccion';  // Asegúrate de que esta URL sea correcta
 
         // Enviar datos al servidor usando fetch
         const response = await fetch(url, {
@@ -77,19 +77,31 @@ async function drawRoute() {
         const resultado = await response.json();
         console.log('Respuesta del servidor:', resultado);
 
-        // Aquí puedes añadir código para mostrar el resultado en tu aplicación si lo deseas
-        alert('Predicción realizada con éxito. Revisa la consola para ver los resultados.');
-
+        // Mostrar los resultados de la predicción en la interfaz
         const resultadoDiv = document.getElementById('resultado');
-                resultadoDiv.innerHTML = `
-                    <h2>Resultado de la Predicción</h2>
-                    <p>Probabilidad de ser 1: ${resultado[0]['Probabilidad de ser 1']}</p>
-                `;
+        resultadoDiv.innerHTML = `
+            <h2>Resultado de la Predicción</h2>
+            <p>Probabilidad de ser 1: ${resultado[0]['Probabilidad de ser 1']}</p>
+        `;
         const distanceDiv = document.getElementById('distance');
-                distanceDiv.innerHTML = `
-                     <h2>Distancia de la Predicción</h2>
-                     <p>Distancia en millas : ${resultado[0]['Distancia']}</p>
-                `;
+        distanceDiv.innerHTML = `
+            <h2>Distancia de la Predicción</h2>
+            <p>Distancia en millas: ${resultado[0]['Distancia']}</p>
+        `;
+
+        // Obtener coordenadas del CSV o JSON para origen y destino
+        const originCoords = await getAirportCoordinates(origin);
+        const destinationCoords = await getAirportCoordinates(destination);
+
+        // Dibujar la ruta en el mapa
+        const route = L.polyline([originCoords, destinationCoords], {
+            color: 'blue',
+            dashArray: '10, 10', // Estilo de línea discontinua
+            weight: 3
+        }).addTo(map);
+
+        map.fitBounds([originCoords, destinationCoords]); // Ajustar el mapa para mostrar la ruta completa
+
     } catch (error) {
         console.error('Error:', error);
         alert('Ocurrió un error al enviar los datos al servidor.');
