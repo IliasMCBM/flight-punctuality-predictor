@@ -1,5 +1,3 @@
-/* style.css */
-
 /* Reseteo básico de márgenes y paddings */
 * {
     margin: 0;
@@ -29,6 +27,17 @@
     background-color: #ffffff; /* Color de fondo claro */
     border-right: 0px solid #ddd; /* Línea divisoria */
     border-bottom: 0px solid #ddd; /* Línea divisoria */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Centrado del contenido dentro de top-left */
+.top-left .content {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 /* Sección superior derecha */
@@ -80,6 +89,7 @@
 form {
     display: flex;
     flex-direction: column;
+    align-items: center;
 }
 
 /* Estilo para los botones y divs de resultado */
@@ -90,3 +100,80 @@ button {
 #resultado, #distance {
     margin-top: 10px;
 }
+
+/* Estilo para los inputs */
+.input {
+    width: 200px;
+    padding: 12px;
+    border: 2px solid #3498db;
+    border-radius: 8px;
+    outline: none;
+    font-size: 16px; /* Ajustar el tamaño de la fuente */
+    transition: border-color 0.3s, box-shadow 0.3s, transform 0.3s;
+    background-color: rgba(255, 255, 255, 0);
+    color: #000000;
+    box-sizing: border-box;
+}
+
+.input:focus {
+    color: #333;
+    border-color: #2980b9;
+    box-shadow: 0 0 5px rgba(52, 152, 219, 0.5);
+    transform: scale(1.02);
+}
+
+/* Placeholder Styling */
+.input::placeholder {
+    color: rgb(222, 18, 18);
+    font-style: italic;
+}
+
+/* Hover Effect */
+.input:hover {
+    background-color: rgba(3, 99, 183, 0);
+}
+
+/* Estilo para article y el texto */
+article {
+    background: linear-gradient(
+        to right,
+        hsl(204, 64%, 44%),
+        hsl(185, 100%, 56%)
+    );
+    -webkit-background-clip: text;
+    background-clip: text; /* Propiedad estándar para el clip de fondo */
+    color: transparent; /* Hacer el texto transparente */
+    text-align: center;
+}
+
+article p, article h1 {
+    -webkit-text-fill-color: transparent; /* Aplicar solo al texto dentro del artículo */
+    color: transparent; /* Hacer el texto transparente */
+}
+
+
+h1 {
+    font-size: 2em; /* Ajustar el tamaño de la fuente */
+    line-height: 1.1;
+}
+
+body {
+    background: rgba(255, 255, 255, 0); /* Asegurarse de que el fondo sea blanco */
+    font-family: system-ui;
+}
+
+h1, p, body {
+    margin: 0;
+}
+
+p {
+    font-family: "Dank Mono", ui-monospace, monospace;
+}
+
+html {
+    block-size: 100%;
+    inline-size: 100%;
+}
+
+
+
