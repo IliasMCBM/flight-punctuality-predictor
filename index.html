@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -18,35 +18,35 @@
         <article>
             <h1>Flight Route Map</h1>
             <form id="flight-form">
-                <label for="origin">Origen (Código IATA):</label>
+                <label for="origin">Origin (IATA Code):</label>
                 <input type="text" class="input" id="origin" name="origin" required>
 
-                <label for="destination">Destino (Código IATA):</label>
+                <label for="destination">Destination (IATA Code):</label>
                 <input type="text" class="input" id="destination" name="destination" required>
 
-                <label for="mes">Mes:</label>
-                <input type="number" class="input" id="mes" name="mes" min="1" max="12" required>
+                <label for="month">Month:</label>
+                <input type="number" class="input" id="month" name="month" min="1" max="12" required>
 
-                <label for="dia">Día:</label>
-                <input type="number" class="input" id="dia" name="dia" min="1" max="31" required>
+                <label for="day">Day:</label>
+                <input type="number" class="input" id="day" name="day" min="1" max="31" required>
 
-                <label for="hora_salida">Hora de Salida (formato militar HHMM):</label>
-                <input type="number" class="input" id="hora_salida" name="hora_salida" min="0" max="2359" required>
+                <label for="departure_time">Departure Time (military format HHMM):</label>
+                <input type="number" class="input" id="departure_time" name="departure_time" min="0" max="2359" required>
 
-                <label for="hora_llegada">Hora de Llegada (formato militar HHMM):</label>
-                <input type="number" class="input" id="hora_llegada" name="hora_llegada" min="0" max="2359" required>
+                <label for="arrival_time">Arrival Time (military format HHMM):</label>
+                <input type="number" class="input" id="arrival_time" name="arrival_time" min="0" max="2359" required>
             </form>
         </article>
     </div>
     <div class="section top-right">
-        <img src="avion.png" alt="Imagen descriptiva" class="image">
+        <img src="plane.png" alt="Descriptive Image" class="image">
     </div>
     <div class="section bottom-left">
         <div id="map"></div>
     </div>
     <div class="section bottom-right">
-        <button type="button" class="button" onclick="drawRoute()">Mostrar Ruta</button>
-        <div id="resultado"></div>
+        <button type="button" class="button" onclick="drawRoute()">Show Route</button>
+        <div id="result"></div>
         <div id="distance"></div>
     </div>
 </div>
@@ -54,3 +54,4 @@
 <script src="script.js"></script>
 </body>
 </html>
+

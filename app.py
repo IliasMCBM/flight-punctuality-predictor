@@ -5,27 +5,27 @@ import joblib
 import pandas as pd
 import numpy as np
 
-# Cargar el modelo desde joblib
+# Load the model from joblib
 loaded_pipeline = joblib.load('xgboost_model.joblib')
 df = pd.read_csv('combined_2023.csv')
 distances_dict = df.groupby(['ORIGIN', 'DEST'])['DISTANCE'].mean().to_dict()
 
-# Definir la estructura de datos esperada
-class DatosEntrada(BaseModel):
-    origen: str
-    destino: str
-    mes: int
-    dia: int
-    hora_salida: int
-    hora_llegada: int
+# Define the expected data structure
+class InputData(BaseModel):
+    origin: str
+    destination: str
+    month: int
+    day: int
+    departure_time: int
+    arrival_time: int
 
-# Inicializar la aplicación FastAPI
+# Initialize the FastAPI app
 app = FastAPI()
 
-# Configurar CORS
+# Configure CORS
 origins = [
     "http://localhost",
-    "http://localhost:5002",  # Agrega aquí la URL de tu frontend
+    "http://localhost:5003",  # Add your frontend URL here
 ]
 
 app.add_middleware(
@@ -36,41 +36,41 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Ruta para recibir los datos del formulario y hacer la predicción
-@app.post('/prediccion')
-async def obtener_prediccion(datos: DatosEntrada):
+# Route to receive form data and make predictions
+@app.post('/prediction')
+async def get_prediction(data: InputData):
     try:
-        # Obtener la distancia desde el diccionario
-        distance = distances_dict.get((datos.origen, datos.destino), None)
+        # Get the distance from the dictionary
+        distance = distances_dict.get((data.origin, data.destination), None)
 
         if distance is None:
-            return {"error": "No se encontró la distancia para el origen y destino proporcionados"}
+            return {"error": "No distance found for the provided origin and destination"}
 
-        # Preparar los datos para hacer la predicción
+        # Prepare the data for prediction
         inputs = [
-            [2024, datos.mes, datos.dia, datos.origen, datos.destino, datos.hora_salida, datos.hora_llegada, distance]
+            [2024, data.month, data.day, data.origin, data.destination, data.departure_time, data.arrival_time, distance]
         ]
 
-        # Convertir inputs en un DataFrame para usarlo con el modelo
+        # Convert inputs into a DataFrame for the model
         input_df = pd.DataFrame(inputs, columns=['YEAR', 'MONTH', 'DAY_OF_WEEK', 'ORIGIN', 'DEST', 'CRS_DEP_TIME',
                                                  'CRS_ARR_TIME', 'DISTANCE'])
 
-        # Realizar predicciones con el modelo cargado
+        # Make predictions with the loaded model
         predictions = loaded_pipeline.predict(input_df)
-        probabilities = loaded_pipeline.predict_proba(input_df)[:, 1]  # Probabilidad de la clase positiva
+        probabilities = loaded_pipeline.predict_proba(input_df)[:, 1]  # Probability of the positive class
 
-        # Convertir predicciones y probabilidades a tipos de datos que fastapi pueda manejar
-        predictions = predictions.tolist()  # Convertir numpy array a lista de Python
-        probabilities = probabilities.tolist()  # Convertir numpy array a lista de Python
+        # Convert predictions and probabilities to types that FastAPI can handle
+        predictions = predictions.tolist()  # Convert numpy array to Python list
+        probabilities = probabilities.tolist()  # Convert numpy array to Python list
 
-        # Formatear la respuesta
+        # Format the response
         results = []
         for i, (pred, prob) in enumerate(zip(predictions, probabilities)):
             results.append({
                 "Input": i + 1,
-                "Predicción": int(pred),
-                "Probabilidad de ser 1": round(prob, 4),
-                "Distancia": distance
+                "Prediction": int(pred),
+                "Probability of being 1": round(prob, 4),
+                "Distance": distance
             })
 
         return results
@@ -78,5 +78,6 @@ async def obtener_prediccion(datos: DatosEntrada):
     except Exception as e:
         return {"error": str(e)}
 
-# Para iniciar el servidor, usa el comando: uvicorn app:app --reload --port 8001
-    #python -m http.server 5001
+# To start the server, use the command: uvicorn app:app --reload --port 8001
+#python -m http.server 5001
+

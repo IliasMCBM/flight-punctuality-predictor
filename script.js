@@ -6,7 +6,7 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 
 let airports = {};
 
-// Cargar los datos de los aeropuertos desde el archivo JSON
+// Load airport data from JSON file
 fetch('iata-icao.json')
     .then(response => response.json())
     .then(data => {
@@ -14,7 +14,7 @@ fetch('iata-icao.json')
             airports[airport.iata] = [parseFloat(airport.latitude), parseFloat(airport.longitude)];
         });
     })
-    .catch(error => console.error('Error al cargar los datos de los aeropuertos:', error));
+    .catch(error => console.error('Error loading airport data:', error));
 
 function getAirportCoordinates(iataCode) {
     return new Promise((resolve, reject) => {
@@ -22,7 +22,7 @@ function getAirportCoordinates(iataCode) {
         if (coordinates) {
             resolve(coordinates);
         } else {
-            reject(`No se encontraron datos para el código IATA: ${iataCode}`);
+            reject(`No data found for IATA code: ${iataCode}`);
         }
     });
 }
@@ -36,75 +36,74 @@ function removePreviousRoutes() {
 }
 
 async function drawRoute() {
-    // Eliminar rutas anteriores
+    // Remove previous routes
     removePreviousRoutes();
 
     const origin = document.getElementById('origin').value.toUpperCase();
     const destination = document.getElementById('destination').value.toUpperCase();
-    const mes = document.getElementById('mes').value;
-    const dia = document.getElementById('dia').value;
-    const horaSalida = document.getElementById('hora_salida').value;
-    const horaLlegada = document.getElementById('hora_llegada').value;
+    const month = document.getElementById('month').value;
+    const day = document.getElementById('day').value;
+    const departureTime = document.getElementById('departure_time').value;
+    const arrivalTime = document.getElementById('arrival_time').value;
 
     try {
-        // Objeto con los datos a enviar
-        const datos = {
-            origen: origin,
-            destino: destination,
-            mes: parseInt(mes),
-            dia: parseInt(dia),
-            hora_salida: parseInt(horaSalida),
-            hora_llegada: parseInt(horaLlegada)
+        // Object with the data to send
+        const data = {
+            origin: origin,
+            destination: destination,
+            month: parseInt(month),
+            day: parseInt(day),
+            departure_time: parseInt(departureTime),
+            arrival_time: parseInt(arrivalTime)
         };
 
-        // URL del servidor FastAPI
-        const url = 'http://127.0.0.1:8002/prediccion';  // Asegúrate de que esta URL sea correcta
+        // FastAPI server URL
+        const url = 'http://127.0.0.1:8002/prediction';  // Make sure this URL is correct
 
-        // Enviar datos al servidor usando fetch
+        // Send data to the server using fetch
         const response = await fetch(url, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify(datos)
+            body: JSON.stringify(data)
         });
 
         if (!response.ok) {
-            throw new Error('Error al enviar los datos');
+            throw new Error('Error sending data');
         }
 
-        // Procesar la respuesta del servidor
-        const resultado = await response.json();
-        console.log('Respuesta del servidor:', resultado);
+        // Process the server's response
+        const result = await response.json();
+        console.log('Server response:', result);
 
-        // Mostrar los resultados de la predicción en la interfaz
-        const resultadoDiv = document.getElementById('resultado');
-        resultadoDiv.innerHTML = `
-            <h2>Resultado de la Predicción</h2>
-            <p>Probabilidad de ser 1: ${resultado[0]['Probabilidad de ser 1']}</p>
+        // Display the prediction results in the interface
+        const resultDiv = document.getElementById('result');
+        resultDiv.innerHTML = `
+            <h2>Prediction Result</h2>
+            <p>Probability of being 1: ${result[0]['Probability of being 1']}</p>
         `;
         const distanceDiv = document.getElementById('distance');
         distanceDiv.innerHTML = `
-            <h2>Distancia de la Predicción</h2>
-            <p>Distancia en millas: ${resultado[0]['Distancia']}</p>
+            <h2>Prediction Distance</h2>
+            <p>Distance in miles: ${result[0]['Distance']}</p>
         `;
 
-        // Obtener coordenadas del CSV o JSON para origen y destino
+        // Get coordinates from CSV or JSON for origin and destination
         const originCoords = await getAirportCoordinates(origin);
         const destinationCoords = await getAirportCoordinates(destination);
 
-        // Dibujar la ruta en el mapa
+        // Draw the route on the map
         const route = L.polyline([originCoords, destinationCoords], {
             color: 'blue',
-            dashArray: '10, 10', // Estilo de línea discontinua
+            dashArray: '10, 10', // Dashed line style
             weight: 3
         }).addTo(map);
 
-        map.fitBounds([originCoords, destinationCoords]); // Ajustar el mapa para mostrar la ruta completa
+        map.fitBounds([originCoords, destinationCoords]); // Adjust the map to show the full route
 
     } catch (error) {
         console.error('Error:', error);
-        alert('Ocurrió un error al enviar los datos al servidor.');
+        alert('An error occurred while sending data to the server.');
     }
 }
-
