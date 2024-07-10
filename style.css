@@ -216,4 +216,31 @@ a.button:hover {
     /* Otros estilos... */
     z-index: 2; /* Ajusta el valor según sea necesario */
 }
+/* Estilos adicionales para el encabezado */
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    background-color: #f8f8f8;
+    border-bottom: 1px solid #ddd;
+}
 
+header img {
+    height: 50px;
+}
+
+header h1 {
+    margin: 0;
+    font-size: 24px;
+    text-align: center;
+    flex-grow: 1;
+}
+
+.logo-left {
+    margin-right: auto;
+}
+
+.logo-right {
+    margin-left: auto;
+}
