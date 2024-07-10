@@ -25,7 +25,7 @@ app = FastAPI()
 # Configurar CORS
 origins = [
     "http://localhost",
-    "http://localhost:5001",  # Agrega aquí la URL de tu frontend
+    "http://localhost:5002",  # Agrega aquí la URL de tu frontend
 ]
 
 app.add_middleware(
@@ -79,4 +79,4 @@ async def obtener_prediccion(datos: DatosEntrada):
         return {"error": str(e)}
 
 # Para iniciar el servidor, usa el comando: uvicorn app:app --reload --port 8001
-#python -m http.server 5001
+    #python -m http.server 5001
