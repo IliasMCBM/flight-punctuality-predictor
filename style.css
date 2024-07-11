@@ -161,6 +161,12 @@ body {
     background: rgba(255, 255, 255, 0); /* Asegurarse de que el fondo sea blanco */
     font-family: system-ui;
 }
+h1.title {
+    color: black; /* Color negro sólido */
+    text-align: center;
+    font-size: 3.5em; /* Ajusta este valor según tus necesidades */
+}
+
 
 h1, p, body {
     margin: 0;
@@ -222,7 +228,11 @@ header {
     justify-content: space-between;
     align-items: center;
     padding: 10px;
-    background-color: #f8f8f8;
+    background: linear-gradient(
+            to right,
+            hsl(185, 100%, 56%),
+            white
+        ); /* Gradiente lineal de azul a negro */
     border-bottom: 1px solid #ddd;
 }
 
