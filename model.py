@@ -10,21 +10,21 @@ from joblib import parallel_backend
 import time
 import pandas as pd
 import xgboost as xgb
-df=pd.read_csv('combined_2023.csv')
-# Importar la función para el manejo de desbalance de clases en XGBoost
+df = pd.read_csv('combined_2023.csv')
+# Import the function for handling class imbalance in XGBoost
 from xgboost import XGBClassifier
 df = df.dropna()
-# Cargar los datos y definir X e y
+# Load the data and define X and y
 X = df.drop(columns=['ARR_DEL15'])
 y = df['ARR_DEL15']
 
-# Semilla para reproducibilidad
+# Seed for reproducibility
 seed = 123
 
-# Dividir los datos en entrenamiento y prueba con semilla y estratificación
+# Split the data into training and testing sets with seed and stratification
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=seed, stratify=y)
 
-# Definir las transformaciones para datos numéricos y categóricos
+# Define the transformations for numeric and categorical data
 numeric_features = X.select_dtypes(include=['float64', 'int64']).columns
 categorical_features = X.select_dtypes(include=['object']).columns
 
@@ -38,44 +38,44 @@ categorical_transformer = Pipeline(steps=[
     ('encoder', OneHotEncoder(handle_unknown='ignore'))
 ])
 
-# Combinar las transformaciones
+# Combine the transformations
 preprocessor = ColumnTransformer(
     transformers=[
         ('num', numeric_transformer, numeric_features),
         ('cat', categorical_transformer, categorical_features)
     ])
 
-# Definir el modelo XGBoost con manejo de desbalance de clases
+# Define the XGBoost model with class imbalance handling
 model = XGBClassifier(random_state=seed, n_estimators=15, max_depth=13, booster='gbtree', scale_pos_weight=(len(y) - y.sum()) / y.sum())
 
-# Definir el pipeline que incluye la transformación y el modelo
+# Define the pipeline that includes the transformation and the model
 pipeline = Pipeline(steps=[('preprocessor', preprocessor),
                            ('classifier', model)])
 
-# Entrenar el modelo
-start_training_time = time.time()  # Iniciar el temporizador para el entrenamiento
+# Train the model
+start_training_time = time.time()  # Start the timer for training
 pipeline.fit(X_train, y_train)
-end_training_time = time.time()  # Finalizar el temporizador para el entrenamiento
+end_training_time = time.time()  # End the timer for training
 
-# Predecir en el conjunto de prueba
-start_prediction_time = time.time()  # Iniciar el temporizador para la predicción
+# Predict on the test set
+start_prediction_time = time.time()  # Start the timer for prediction
 y_pred = pipeline.predict(X_test)
-end_prediction_time = time.time()  # Finalizar el temporizador para la predicción
+end_prediction_time = time.time()  # End the timer for prediction
 
-# Mostrar métricas de evaluación
+# Display evaluation metrics
 print(classification_report(y_test, y_pred))
 
-# Tiempo total de entrenamiento y predicción
-print(f"Tiempo total de entrenamiento: {end_training_time - start_training_time} segundos")
-print(f"Tiempo total de predicción: {end_prediction_time - start_prediction_time} segundos")
+# Total training and prediction time
+print(f"Total training time: {end_training_time - start_training_time} seconds")
+print(f"Total prediction time: {end_prediction_time - start_prediction_time} seconds")
 
 
 import joblib
 
-# Ajustar el pipeline con los datos de entrenamiento
+# Fit the pipeline with the training data
 pipeline.fit(X_train, y_train)
 
-# Guardar el modelo usando joblib
+# Save the model using joblib
 joblib_filename = "xgboost_model.joblib"
 joblib.dump(pipeline, joblib_filename)
-print(f"Modelo XGBoost guardado en {joblib_filename}")
+print(f"XGBoost model saved as {joblib_filename}")
