@@ -229,9 +229,9 @@ header {
     align-items: center;
     padding: 10px;
     background: linear-gradient(
-            to right,
+            80deg,
             hsl(185, 100%, 56%),
-            white
+            hsl(0, 0%, 100%)
         ); /* Gradiente lineal de azul a negro */
     border-bottom: 1px solid #ddd;
 }
