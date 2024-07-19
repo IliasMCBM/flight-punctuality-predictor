@@ -36,13 +36,14 @@ git clone https://github.com/IliasMCBM/flight-punctuality-predictor.git
 ```bash
 cd flight-punctuality-predictor
 ```
-![image](https://github.com/user-attachments/assets/fcaf91d3-5f2b-46b3-b8f1-e5dddee58a77)
+![image](https://github.com/user-attachments/assets/0686de57-628f-42d8-83d1-7a868deebffe)
 
 ### Build and Start the Docker Containers:
 ```bash
 docker-compose up --build
 ```
 ![image](https://github.com/user-attachments/assets/4a93192f-d5e8-4881-ab47-3d1f9dfab97e)
+
 ![image](https://github.com/user-attachments/assets/dd865861-62d9-4fff-a9ba-c450ce3c0dfb)
 
 ### Access the Application:
