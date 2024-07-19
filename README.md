@@ -30,3 +30,30 @@ To run the Flight Punctuality Predictor, you need Docker installed on your syste
 ### Clone the Repository:
 ```bash
 git clone https://github.com/IliasMCBM/flight-punctuality-predictor.git
+```
+###Build and Start the Docker Containers:
+```bash
+docker-compose up --build
+```
+###Access the Application:
+
+Open your web browser and navigate to http://localhost/
+
+The application interface is user-friendly, requiring inputs typically found on flight tickets, such as flight number, departure time, and date. Users can easily enter these details to obtain predictions.
+
+## Distribution and Results
+The front-end interface of the Flight Punctuality Predictor is organized into four main sections, each designed to enhance user experience and functionality:
+
+### Input Section (Top-Right Corner)
+This section allows users to enter the necessary flight information. The input fields are straightforward and user-friendly, designed to be intuitive since they require data that users typically find on a flight ticket, such as the flight number, departure time, and date.
+
+### Flight Route Map (Bottom-Left Corner)
+In this section, users can view a map that shows the flight route. By clicking the "Show Route" button, the map will highlight the path the flight is expected to take. This feature provides a visual representation of the flight’s trajectory, making it easier for users to understand the planned journey.
+
+### Prediction Results and Distance Information (Bottom-Right Corner)
+This area displays the results of the flight punctuality prediction along with the distance of the flight in miles. The prediction results indicate the likelihood of a delay, while the distance information gives users context about the length of the flight.
+
+Each section is designed to provide clear and relevant information, ensuring that users can easily access and understand the details they need.
+
+## Conclusion
+The Flight Punctuality Predictor offers airlines a powerful tool to enhance operational efficiency, reduce costs, and improve customer satisfaction by accurately predicting flight delays. By integrating advanced machine learning algorithms with real-time data, this solution provides a competitive edge in the market, helping airlines deliver more reliable and punctual services.
