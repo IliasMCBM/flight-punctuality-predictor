@@ -31,11 +31,13 @@ To run the Flight Punctuality Predictor, you need Docker installed on your syste
 ```bash
 git clone https://github.com/IliasMCBM/flight-punctuality-predictor.git
 ```
+![image](https://github.com/user-attachments/assets/deddc7b4-758a-4a62-bc93-3d0becadf03f)
+
 ###Build and Start the Docker Containers:
 ```bash
 docker-compose up --build
 ```
-###Access the Application:
+### Access the Application:
 
 Open your web browser and navigate to http://localhost/
 
