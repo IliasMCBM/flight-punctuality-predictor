@@ -32,16 +32,28 @@ To run the Flight Punctuality Predictor, you need Docker installed on your syste
 git clone https://github.com/IliasMCBM/flight-punctuality-predictor.git
 ```
 ![image](https://github.com/user-attachments/assets/deddc7b4-758a-4a62-bc93-3d0becadf03f)
+### Navigate to the Project Directory:
+```bash
+cd flight-punctuality-predictor
+```
+![image](https://github.com/user-attachments/assets/fcaf91d3-5f2b-46b3-b8f1-e5dddee58a77)
 
-###Build and Start the Docker Containers:
+### Build and Start the Docker Containers:
 ```bash
 docker-compose up --build
 ```
+![image](https://github.com/user-attachments/assets/4a93192f-d5e8-4881-ab47-3d1f9dfab97e)
+![image](https://github.com/user-attachments/assets/dd865861-62d9-4fff-a9ba-c450ce3c0dfb)
+
 ### Access the Application:
 
 Open your web browser and navigate to http://localhost/
 
+![image](https://github.com/user-attachments/assets/14413bee-e7c6-4f18-bbda-17f7cd3bdd36)
+
 The application interface is user-friendly, requiring inputs typically found on flight tickets, such as flight number, departure time, and date. Users can easily enter these details to obtain predictions.
+
+![image](https://github.com/user-attachments/assets/7780c221-61ef-4c30-9612-66c8064760b5)
 
 ## Distribution and Results
 The front-end interface of the Flight Punctuality Predictor is organized into four main sections, each designed to enhance user experience and functionality:
@@ -54,6 +66,8 @@ In this section, users can view a map that shows the flight route. By clicking t
 
 ### Prediction Results and Distance Information (Bottom-Right Corner)
 This area displays the results of the flight punctuality prediction along with the distance of the flight in miles. The prediction results indicate the likelihood of a delay, while the distance information gives users context about the length of the flight.
+
+![image](https://github.com/user-attachments/assets/96c9d46b-109d-4718-bad7-932c12f4d0e3)
 
 Each section is designed to provide clear and relevant information, ensuring that users can easily access and understand the details they need.
 
