@@ -45,7 +45,44 @@ async function drawRoute() {
     const day = document.getElementById('day').value;
     const departureTime = document.getElementById('departure_time').value;
     const arrivalTime = document.getElementById('arrival_time').value;
+    // Validate IATA codes
+        const iataPattern = /^[A-Za-z]{3}$/;
+        if (!iataPattern.test(origin)) {
+            alert('Origin must be a three-letter IATA code.');
+            isValid = false;
+        }
+        if (!iataPattern.test(destination)) {
+            alert('Destination must be a three-letter IATA code.');
+            isValid = false;
+        }
 
+        // Validate month
+        if (isNaN(month) || month < 1 || month > 12) {
+            alert('Month must be a number between 1 and 12.');
+            isValid = false;
+        }
+
+        // Validate day of the week (1-7, where 1 is Monday)
+        if (isNaN(day) || day < 1 || day > 7) {
+            alert('Day must be a number between 1 and 7, where 1 is Monday.');
+            isValid = false;
+        }
+
+        // Validate time in HHMM format
+        const timePattern = /^([01]\d|2[0-3])[0-5]\d$/;
+        if (!timePattern.test(departureTime)) {
+            alert('Departure time must be in HHMM format.');
+            isValid = false;
+        }
+        if (!timePattern.test(arrivalTime)) {
+            alert('Arrival time must be in HHMM format.');
+            isValid = false;
+        }
+
+        if (isValid) {
+            // Submit the form if all validations pass
+            this.submit();
+        }
     try {
         // Object with the data to send
         const data = {

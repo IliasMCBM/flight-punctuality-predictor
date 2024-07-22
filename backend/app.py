@@ -83,6 +83,6 @@ async def get_prediction(data: InputData):
     except Exception as e:
         return {"error": str(e)}
 
-# To start the server, use the command: uvicorn app:app --reload --port 8001
+# To start the server, use the command: uvicorn app:app --reload --port 8000
 #python -m http.server 5001
 
