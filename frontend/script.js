@@ -46,6 +46,7 @@ async function drawRoute() {
     const departureTime = document.getElementById('departure_time').value;
     const arrivalTime = document.getElementById('arrival_time').value;
     // Validate IATA codes
+        const isValid = true;
         const iataPattern = /^[A-Za-z]{3}$/;
         if (!iataPattern.test(origin)) {
             alert('Origin must be a three-letter IATA code.');
@@ -79,9 +80,8 @@ async function drawRoute() {
             isValid = false;
         }
 
-        if (isValid) {
-            // Submit the form if all validations pass
-            this.submit();
+        if (!isValid) {
+                return;  // Stop the function if any validation fails
         }
     try {
         // Object with the data to send
@@ -116,9 +116,10 @@ async function drawRoute() {
 
         // Display the prediction results in the interface
         const resultDiv = document.getElementById('result');
+        const probability = (result[0]['Probability of being 1'] * 100).toFixed(2);
         resultDiv.innerHTML = `
             <h2>Prediction Result</h2>
-            <p>Probability of being 1: ${result[0]['Probability of being 1']}</p>
+            <p>Probability of delay greater than 15 minutes: ${probability}%</p>
         `;
         const distanceDiv = document.getElementById('distance');
         distanceDiv.innerHTML = `
